@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : adminhome
     Created on : Jun 9, 2023, 7:39:51 PM
@@ -41,31 +42,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                <c:forEach var="b" items="${listB}">
                     <tr>
-                        <td>Book 1</td>
-                        <td>Author 1</td>
-                        <td>Thể loại 1</td>
-                        <td>2022-01-01</td>
-                        <td>200</td>
-                        <td>100</td>
+                        <td>${b.getTieude()}</td>
+                        <td>${b.getTacgia()}</td>
+                        <td>${b.getTheloai()}</td>
+                        <td>${b.getPhathanh()}</td>
+                        <td>${b.getSotrang()}</td>
+                        <td>${b.getDaban()}</td>
                         <td>
-                            <button class="btn btn-info" onclick="viewBook()">Xem</button>
-                            <button class="btn btn-danger" onclick="deleteBook()">Xóa</button>
+                            <a href="edit?bid=${b.getBid()}"><button class="btn btn-info" >Xem</button></a>
+                            <button class="btn btn-danger">Xóa</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Book 2</td>
-                        <td>Author 2</td>
-                        <td>Thể loại 2</td>
-                        <td id="#date">2022-02-01</td>
-                        <td>150</td>
-                        <td>50</td>
-                        <td>
-                            <button class="btn btn-info" onclick="viewBook()">Xem</button>
-                            <button class="btn btn-danger" onclick="deleteBook()">Xóa</button>
-                        </td>
-                    </tr>
-                    <!-- Thêm các dòng khác tương tự -->
+                </c:forEach>
+
                 </tbody>
             </table>
         </div>

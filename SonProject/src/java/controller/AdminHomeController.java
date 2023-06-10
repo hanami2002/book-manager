@@ -11,6 +11,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import entity.Book;
+import entity.TheLoai;
+import dao.BookDAO;
+import dao.TheLoaiDAO;
+import java.util.List;
+
 
 /**
  *
@@ -29,6 +35,10 @@ public class AdminHomeController extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            BookDAO bdao= new BookDAO();
+            TheLoaiDAO theLoaiDAO=new TheLoaiDAO();
+            List<Book> listB= bdao.getAllBooks();
+            request.setAttribute("listB", listB);
             request.getRequestDispatcher("adminhome.jsp").forward(request, response);
         }
     } 
