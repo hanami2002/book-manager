@@ -1,4 +1,4 @@
-/*
+        /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -13,13 +13,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author Hanami
  */
-public class UserHomeController extends HttpServlet {
+public class ViewController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,7 +30,14 @@ public class UserHomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("userhome.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            String bid= request.getParameter("bid");
+            BookDAO bdao= new BookDAO();
+            Book book=bdao.getBookById(Integer.parseInt(bid));
+            request.setAttribute("book", book);
+            request.getRequestDispatcher("add.jsp").forward(request, response);
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -45,10 +51,7 @@ public class UserHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BookDAO bookDAO = new BookDAO();
-        List <Book> books = bookDAO.getAllBooks();
-        request.setAttribute("books", books);
-        request.getRequestDispatcher("userhome.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

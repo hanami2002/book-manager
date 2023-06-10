@@ -6,20 +6,18 @@
 package controller;
 
 import dao.BookDAO;
-import entity.Book;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author Hanami
  */
-public class UserHomeController extends HttpServlet {
+public class DeleteBook extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,7 +29,13 @@ public class UserHomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("userhome.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            String bid= request.getParameter("bid");
+            BookDAO bdao= new BookDAO();
+            bdao.deleteBook(Integer.parseInt(bid));
+            response.sendRedirect("admin-home");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -45,10 +49,7 @@ public class UserHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BookDAO bookDAO = new BookDAO();
-        List <Book> books = bookDAO.getAllBooks();
-        request.setAttribute("books", books);
-        request.getRequestDispatcher("userhome.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

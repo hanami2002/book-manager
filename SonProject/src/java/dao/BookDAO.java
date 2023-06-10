@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import entity.Book;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
  *
@@ -69,23 +70,24 @@ public class BookDAO extends DBContextMySQL {
         }
         return books;
     }
-    public boolean addBook(Book book) {
-        String query = "INSERT INTO book (tieude, anhbia, tacgia, mota, ngayphathanh, sotrang, theloai) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, book.getTieude());
-            ps.setString(2, book.getAnhbia());
-            ps.setString(3, book.getTacgia());
-            ps.setString(4, book.getMota());
-            ps.setDate(5, (java.sql.Date) book.getPhathanh());
-            ps.setInt(6, book.getSotrang());
-            ps.setInt(7, book.getTheloai());
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+    public void addBook(String tieude, String anhbia, String tacgia, String mota, String ngayphathanh, int sotrang, int theloai) {
+    try {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date parsedDate = dateFormat.parse(ngayphathanh);
+        java.sql.Date sqlNgayPhatHanh = new java.sql.Date(parsedDate.getTime());        
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO book (tieude, anhbia, tacgia, mota, ngayphathanh, sotrang, theloai) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        statement.setString(1, tieude);
+        statement.setString(2, anhbia);
+        statement.setString(3, tacgia);
+        statement.setString(4, mota);
+        statement.setDate(5, sqlNgayPhatHanh);
+        statement.setInt(6, sotrang);
+        statement.setInt(7, theloai);
+         statement.executeUpdate();
+        
+    } catch ( Exception ex) {
+        ex.printStackTrace();
+    }
     }
 
     /**
@@ -132,4 +134,6 @@ public class BookDAO extends DBContextMySQL {
         }
         return false;
     }
+
+    
 }

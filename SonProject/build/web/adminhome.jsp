@@ -1,31 +1,26 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- 
-    Document   : adminhome
-    Created on : Jun 9, 2023, 7:39:51 PM
-    Author     : Hanami
---%>
-<!--style="
-    width: 100%;
-    height: 300px;
-    /* margin-left: 10px; */
-    /* margin-right: 10px; */
-    padding-right: 10px;
-    padding-left: 10px;
-    padding-top: 10px;
-"-->
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Quản lý thư viện</title>
+        <jsp:useBean id="theloai" scope="page" class="dao.TheLoaiDAO" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script >
+            function deletepBook(bid) {
+                if (confirm("Do you want to delete?")) {
+                    window.location = "delete-book?bid=" + bid;
+                }
+            }
+        </script>
     </head>
     <body>
         <div class="container">
             <h2>Quản lý thư viện</h2>
             <div class="mb-3">
-                <button class="btn btn-primary" onclick="addBook()">Add Book</button>
+                <a href="add.jsp"><button class="btn btn-primary" onclick="addBook()">Add Book</button></a>
                 <a href="/logout"><button class="btn btn-primary" >Đăng Xuất</button></a>
             </div>
 
@@ -42,21 +37,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="b" items="${listB}">
-                    <tr>
-                        <td>${b.getTieude()}</td>
-                        <td>${b.getTacgia()}</td>
-                        <td>${b.getTheloai()}</td>
-                        <td>${b.getPhathanh()}</td>
-                        <td>${b.getSotrang()}</td>
-                        <td>${b.getDaban()}</td>
-                        <td>
-                            <a href="edit?bid=${b.getBid()}"><button class="btn btn-info" >Xem</button></a>
-                            <button class="btn btn-danger">Xóa</button>
-                        </td>
-                    </tr>
-                </c:forEach>
-
+                    <c:forEach var="b" items="${listB}">
+                        <tr>
+                            <td>${b.getTieude()}</td>
+                            <td>${b.getTacgia()}</td>
+                            
+                            <td>${theloai.getTheLoaiById(b.getTheloai()).getTheloai()}</td>
+                            <td>${b.getPhathanh()}</td>
+                            <td>${b.getSotrang()}</td>
+                            <td>${b.getDaban()}</td>
+                            <c:if test="${sessionScope.account!=null}">
+                                <td>
+                                    <a href="view?bid=${b.getBid()}"><button class="btn btn-info" >Xem</button></a>
+                                    <button onclick="deletepBook(${b.getBid()})" class="btn btn-danger">Xóa</button>
+                                </td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                        <tr>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            
+                        </tr>
                 </tbody>
             </table>
         </div>

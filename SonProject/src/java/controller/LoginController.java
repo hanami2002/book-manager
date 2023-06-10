@@ -59,7 +59,16 @@ public class LoginController extends HttpServlet {
                 String registerUsername=request.getParameter("registerUsername");
                 String registerPassword =request.getParameter("registerPassword");
                 String confirmPassword=request.getParameter("confirmPassword");
-                out.print(registerUsername+"\n"+registerPassword+"\n" + confirmPassword);
+                Account existingAccount = adao.getAccountByUsername(registerUsername);
+                if(existingAccount == null){
+                    boolean addAccount = adao.addNewAccount(registerUsername,registerPassword,0);
+                    response.sendRedirect("user-home");
+                }
+                else{
+                     String errorMessage = "Failed to add the new account. Please try again.";
+                    out.println("<script>alert('" + errorMessage + "');</script>");
+                }
+//                out.print(registerUsername+"\n"+registerPassword+"\n" + confirmPassword);
             }
         }
     } 

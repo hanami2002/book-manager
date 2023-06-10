@@ -5,21 +5,23 @@
 
 package controller;
 
-import dao.BookDAO;
-import entity.Book;
+import dao.OrderBookDAO;
+import entity.Account;
+import entity.OrderBook;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
  * @author Hanami
  */
-public class UserHomeController extends HttpServlet {
+public class HistoryController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,7 +33,12 @@ public class UserHomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("userhome.jsp").forward(request, response);
+        HttpSession session= request.getSession();
+        Account account= (Account)session.getAttribute("account");
+        OrderBookDAO orderBookDAO= new OrderBookDAO();
+        List<OrderBook> listO= orderBookDAO.getOrderByUsername(account.getUsername());
+        request.setAttribute("listO", listO);
+        request.getRequestDispatcher("history.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -45,10 +52,7 @@ public class UserHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        BookDAO bookDAO = new BookDAO();
-        List <Book> books = bookDAO.getAllBooks();
-        request.setAttribute("books", books);
-        request.getRequestDispatcher("userhome.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
