@@ -87,7 +87,7 @@ public class BookDetail extends HttpServlet {
             default:
                 break;
         }
-        response.sendRedirect("./book-detail?bid="+bid);
+        response.sendRedirect("history");
     }
 
     /** </editor-fold> **/

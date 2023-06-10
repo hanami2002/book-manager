@@ -59,6 +59,7 @@
             <div class="row">                
                 <div class="col-md-6">                                     
                     <form action="addbook" method="post" enctype="multipart/form-data">
+                        <input name="bid" value="${book.getBid()}">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="title">Tiêu đề:</label>

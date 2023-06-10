@@ -50,4 +50,16 @@ public class OrderBookDAO extends DBContextMySQL {
         }
         return orderBooks;
     }
+    public boolean deleteOrderById(int id) {
+        String query = "DELETE FROM order_book WHERE oid = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

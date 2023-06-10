@@ -46,7 +46,6 @@ public class AddBook extends HttpServlet {
             String fileName = filePart.getSubmittedFileName();
             InputStream fileContent = filePart.getInputStream();
             Files.copy(fileContent, new File(uploadDirectory, fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
-            
             String tieude = request.getParameter("tieude");
             String tacgia = request.getParameter("tacgia");
             String mota = request.getParameter("mota");
@@ -54,9 +53,28 @@ public class AddBook extends HttpServlet {
             String sotrang = request.getParameter("sotrang");
             String theloai = request.getParameter("theloai");
             BookDAO bdao = new BookDAO();
-            bdao.addBook(tieude,"img/"+fileName , tacgia, mota, ngayphathanh, Integer.parseInt(sotrang), Integer.parseInt(theloai));
+            bdao.addBook(tieude, "img/" + fileName, tacgia, mota, ngayphathanh, Integer.parseInt(sotrang), Integer.parseInt(theloai));
 
-                response.sendRedirect("admin-home");
+            response.sendRedirect("admin-home");
+        }
+        if (action.equals("editbook")) {
+         String uploadDirectory = "C:\\Users\\FPTShop\\OneDrive\\Documents\\GitHub\\book-manager\\SonProject\\web\\img";
+            FolderUtils folderUtils = new FolderUtils();
+            folderUtils.checkAndCreateFolder(uploadDirectory);
+            Part filePart = request.getPart("anhbia");
+            String fileName = filePart.getSubmittedFileName();
+            InputStream fileContent = filePart.getInputStream();
+            Files.copy(fileContent, new File(uploadDirectory, fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            String tieude = request.getParameter("tieude");
+            String tacgia = request.getParameter("tacgia");
+            String mota = request.getParameter("mota");
+            String ngayphathanh = request.getParameter("ngayphathanh");
+            String sotrang = request.getParameter("sotrang");
+            String theloai = request.getParameter("theloai");
+            String bid= request.getParameter("bid");
+            BookDAO bdao = new BookDAO();
+            bdao.updateBook(tieude, bid, tacgia, mota, ngayphathanh, Integer.parseInt(sotrang), Integer.parseInt(theloai), Integer.parseInt(bid));
+            response.sendRedirect("admin-home");
         }
 
     }

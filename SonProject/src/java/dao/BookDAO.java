@@ -96,18 +96,18 @@ public class BookDAO extends DBContextMySQL {
      * @param book the Book object to update
      * @return true if the update is successful, false otherwise
      */
-    public boolean updateBook(Book book) {
+    public boolean updateBook(String tieude, String anhbia, String tacgia, String mota, String ngayphathanh, int sotrang, int theloai,int bid) {
         String query = "UPDATE book SET tieude = ?, anhbia = ?, tacgia = ?, mota = ?, ngayphathanh = ?, sotrang = ?, theloai = ? WHERE bid = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, book.getTieude());
-            ps.setString(2, book.getAnhbia());
-            ps.setString(3, book.getTacgia());
-            ps.setString(4, book.getMota());
-            ps.setDate(5, (java.sql.Date) book.getPhathanh());
-            ps.setInt(6, book.getSotrang());
-            ps.setInt(7, book.getTheloai());
-            ps.setInt(8, book.getBid());
+            ps.setString(1, tieude);
+            ps.setString(2, anhbia);
+            ps.setString(3, tacgia);
+            ps.setString(4, mota);
+            ps.setString(5, ngayphathanh);
+            ps.setInt(6, sotrang);
+            ps.setInt(7, theloai);
+            ps.setInt(8, bid);
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {

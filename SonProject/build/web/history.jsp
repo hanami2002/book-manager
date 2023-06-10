@@ -40,7 +40,7 @@
                             <td>${o.getSoluong()}</td>
                             
 <td>
-                    <button class="btn btn-danger" onclick="deleteOrder(1${o.getOid()})">Xóa</button>
+                    <button class="btn btn-danger" onclick="deleteOrder(${o.getOid()})">Xóa</button>
                     </td>
                     </tr>
                 </c:forEach>
@@ -52,7 +52,7 @@
 
         <script>
             function deleteOrder(oid) {
-                if(confirm('ban co muon huy dat mua?')){
+                if(confirm('ban co muon huy dat mua'+oid+'?')){
                     window.location='delete-order?oid='+oid;
                 }
             }
